@@ -77,6 +77,10 @@ describe 'SemanticFormBuilder#commit' do
         output_buffer.should have_tag('li.commit button', /Update Post/)
       end
       
+      it "should render a button with the class 'button' and 'positive' to allow styling with 'pretty buttons' frameworks" do
+        output_buffer.should have_tag('li.commit button.button.positive')
+      end
+      
       it "should render a button with the text as the value" do
         output_buffer.should have_tag('li.commit button[@value="Update Post"]')
       end

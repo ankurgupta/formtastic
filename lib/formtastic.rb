@@ -339,6 +339,8 @@ module Formtastic #:nodoc:
       html_options[:name]  ||= "commit"
       html_options[:type]  ||= "submit"
       html_options[:value] ||= text
+      html_options[:class] ||= ""
+      html_options[:class] << " button positive"
       
       template.content_tag(:button, text, html_options)
     end
