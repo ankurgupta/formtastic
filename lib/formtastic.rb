@@ -308,7 +308,7 @@ module Formtastic #:nodoc:
     def commit(*args)
       options = args.extract_options!
       text = options.delete(:label) || args.shift
-      as = options.delete(:as) || :submit
+      as = options.delete(:as) || :input
 
       if @object
         key = @object.new_record? ? :create : :update
@@ -331,14 +331,14 @@ module Formtastic #:nodoc:
       template.content_tag(:li, send(:"#{as}_button", text, button_html), :class => element_class)
     end
     
-    def submit_button(text, html_options)
+    def input_button(text, html_options)
       self.submit(text, html_options)
     end
     
     def button_button(text, html_options)
       html_options[:name]  ||= "commit"
       html_options[:type]  ||= "submit"
-      html_options[:value] ||= text
+      html_options[:value] ||= "commit"
       html_options[:class] ||= ""
       html_options[:class] << " button positive"
       
@@ -346,7 +346,7 @@ module Formtastic #:nodoc:
     end
     
     def commit_button(*args)
-      ::ActiveSupport::Deprecation.warn("commit_button is deprecated. commit instead", caller)
+      ::ActiveSupport::Deprecation.warn("commit_button() is deprecated. Use commit() instead", caller)
       commit(*args)
     end
 
