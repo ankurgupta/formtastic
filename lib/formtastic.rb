@@ -327,19 +327,20 @@ module Formtastic #:nodoc:
       element_class = ['commit', options.delete(:class)].compact.join(' ') # TODO: Add class reflecting on form action.
       accesskey = (options.delete(:accesskey) || @@default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
       button_html = button_html.merge(:accesskey => accesskey) if accesskey  
-
-      if as == :submit
-        return template.content_tag(:li, self.submit(text, button_html), :class => element_class)
-      end
       
-      if as == :button
-        element_class << " positive"
-        button_html[:name] ||= "commit"
-        button_html[:type] ||= "submit"
-        button_html[:value]||= text
-        return template.content_tag(:li, template.content_tag(:button, text, button_html), :class => element_class)
-      end
+      template.content_tag(:li, send(:"#{as}_button", text, button_html), :class => element_class)
+    end
+    
+    def submit_button(text, html_options)
+      self.submit(text, html_options)
+    end
+    
+    def button_button(text, html_options)
+      html_options[:name]  ||= "commit"
+      html_options[:type]  ||= "submit"
+      html_options[:value] ||= text
       
+      template.content_tag(:button, text, html_options)
     end
     
     def commit_button(*args)
