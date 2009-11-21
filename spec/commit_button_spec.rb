@@ -11,34 +11,94 @@ describe 'SemanticFormBuilder#commit' do
   end
 
   describe 'when used on any record' do
-
-    before do
-      @new_post.stub!(:new_record?).and_return(false)
-      semantic_form_for(@new_post) do |builder|
-        concat(builder.commit)
+    
+    describe ":as => :submit (default)" do
+    
+      before do
+        @output_buffer = ''
+        @new_post.stub!(:new_record?).and_return(false)
+        semantic_form_for(@new_post) do |builder|
+          concat(builder.commit)
+        end
       end
-    end
-
-    it 'should render a commit li' do
-      output_buffer.should have_tag('li.commit')
-    end
-
-    it 'should render an input with a type attribute of "submit"' do
-      output_buffer.should have_tag('li.commit input[@type="submit"]')
-    end
-
-    it 'should render an input with a name attribute of "commit"' do
-      output_buffer.should have_tag('li.commit input[@name="commit"]')
-    end
-
-    it 'should pass options given in :button_html to the button' do
-      @new_post.stub!(:new_record?).and_return(false)
-      semantic_form_for(@new_post) do |builder|
-        concat(builder.commit('text', :button_html => {:class => 'my_class', :id => 'my_id'}))
+      
+      it 'should render a commit li' do
+        output_buffer.should have_tag('li.commit')
       end
-
-      output_buffer.should have_tag('li.commit input#my_id')
-      output_buffer.should have_tag('li.commit input.my_class')
+      
+      it 'should render an input with a type attribute of "submit"' do
+        output_buffer.should have_tag('li.commit input[@type="submit"]')
+      end
+      
+      it 'should render an input with a name attribute of "commit"' do
+        output_buffer.should have_tag('li.commit input[@name="commit"]')
+      end
+      
+      it 'should pass options given in :button_html to the button' do
+        @output_buffer = ''
+        @new_post.stub!(:new_record?).and_return(false)
+        semantic_form_for(@new_post) do |builder|
+          concat(builder.commit('text', :button_html => {:class => 'my_class', :id => 'my_id'}))
+        end
+      
+        output_buffer.should have_tag('li.commit input#my_id')
+        output_buffer.should have_tag('li.commit input.my_class')
+      end
+      
+    end
+    
+    describe ":as => :button" do
+      
+      before do
+        @output_buffer = ''
+        @new_post.stub!(:new_record?).and_return(false)
+        semantic_form_for(@new_post) do |builder|
+          concat(builder.commit :as => :button)
+        end
+      end
+      
+      it 'should render a commit li' do
+        output_buffer.should have_tag('li.commit')
+      end
+      
+      it 'should render a button' do
+        output_buffer.should have_tag('li.commit button')
+      end
+      
+      it 'should render a button with a type of submit' do
+        output_buffer.should have_tag('li.commit button[@type="submit"]')
+      end
+      
+      it 'should render a button name attribute of "commit"' do
+        output_buffer.should have_tag('li.commit button[@name="commit"]')
+      end
+      
+      it "should render a button with the text" do
+        output_buffer.should have_tag('li.commit button', /Update Post/)
+      end
+      
+      it "should render a button with the text as the value" do
+        output_buffer.should have_tag('li.commit button[@value="Update Post"]')
+      end
+      
+      it 'should render a button value attribute of "commit"' do
+        output_buffer.should have_tag('li.commit button[@name="commit"]')
+      end
+      
+      it 'should pass options given in :button_html to the button' do
+        @output_buffer = ''
+        @new_post.stub!(:new_record?).and_return(false)
+        semantic_form_for(@new_post) do |builder|
+          concat(builder.commit('text', :as => :button, :button_html => {:class => 'my_class', :id => 'my_id', :value => "foo", :type => "bah", :name => "baz"}))
+        end
+      
+        output_buffer.should have_tag('li.commit button#my_id')
+        output_buffer.should have_tag('li.commit button.my_class')        
+        output_buffer.should have_tag('li.commit button[@value="foo"]')        
+        output_buffer.should have_tag('li.commit button[@type="bah"]')        
+        output_buffer.should have_tag('li.commit button[@name="baz"]')        
+      end
+    
     end
     
   end
