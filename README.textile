@@ -31,7 +31,7 @@ One day, I finally had enough, so I opened up my text editor, and wrote a DSL fo
     <% end %>
 
     <% form.buttons do %>
-      <%= form.commit_button %>
+      <%= form.commit %>
     <% end %>
 
   <% end %>
@@ -139,7 +139,7 @@ If you want control over the input type Formtastic uses for each field, you can 
       <%= form.input :created_at, :as => :string %>
     <% end %>
     <% form.buttons do %>
-      <%= form.commit_button %>
+      <%= form.commit %>
     <% end %>
   <% end %>
 </pre>
@@ -148,7 +148,7 @@ If you want to customize the label text, or render some hint text below the fiel
 
 <pre>
   <% semantic_form_for @post do |form| %>
-    <% form.inputs "Basic", :id => "basic" do %>
+    <% form.inputs :name => "Basic", :id => "basic" do %>
       <%= form.input :title %>
       <%= form.input :body %>
     <% end %>
@@ -160,7 +160,7 @@ If you want to customize the label text, or render some hint text below the fiel
       <%= form.input :created_at, :as => :string, :label => "Publication Date", :required => false %>
     <% end %>
     <% form.buttons do %>
-      <%= form.commit_button %>
+      <%= form.commit %>
     <% end %>
   <% end %>
 </pre>
@@ -215,7 +215,7 @@ The same can be done for buttons with the @:button_html@ option:
   <% semantic_form_for @post do |form| %>
     ...
     <% form.buttons do %>
-      <%= form.commit_button :button_html => { :class => "primary" } %>
+      <%= form.commit :button_html => { :class => "primary" } %>
     <% end %>
   <% end %>
 </pre>
@@ -279,7 +279,7 @@ Formtastic supports localized *labels*, *hints*, *legends*, *actions* using the 
 *1. Enable I18n lookups by default (@config/initializers/formtastic.rb@):*
 
 <pre>
-  Formtastic::SemanticFormBuilder.i18n_lookups_by_default = true
+  Formtastic::SemanticFormBuilder::Base.i18n_lookups_by_default = true
 </pre>
 
 *2. Add some cool label-translations/variants (@config/locale/en.yml@):*
@@ -317,18 +317,18 @@ Formtastic supports localized *labels*, *hints*, *legends*, *actions* using the 
       <%= form.input :section %>    # => :label => I18n.t('activerecord.attributes.user.section')  or 'Section'
     <% end %>
     <% form.buttons do %>
-      <%= form.commit_button %>     # => "Create my {{model}}"
+      <%= form.commit %>     # => "Create my {{model}}"
     <% end %>
   <% end %>
 </pre>
 
 *4. Localized titles (a.k.a. legends):*
 
-_Note: Slightly different because Formtastic can't guess how you group fields in a form. Legend text can be set with first (as in the sample below) specified value, or :name/:title options - depending on what flavor is preferred._
+_Note: Slightly different because Formtastic can't guess how you group fields in a form._
 
 <pre>
   <% semantic_form_for @post do |form| %>
-    <% form.inputs :post_details do %>   # => :title => "Post details"
+    <% form.inputs :title => :post_details do %>   # => :title => "Post details"
       # ...
     <% end %>
     # ...
@@ -345,7 +345,7 @@ _Note: Slightly different because Formtastic can't guess how you group fields in
       <%= form.input :section, :label => 'Some section' %>    # => :label => 'Some section'
     <% end %>
     <% form.buttons do %>
-      <%= form.commit_button :dummie %>     # => "Launch!"
+      <%= form.commit :dummie %>     # => "Launch!"
     <% end %>
   <% end %>
 </pre>
@@ -353,7 +353,7 @@ _Note: Slightly different because Formtastic can't guess how you group fields in
 If I18n-lookups is disabled, i.e.:
 
 <pre>
-  Formtastic::SemanticFormBuilder.i18n_lookups_by_default = false
+  Formtastic::SemanticFormBuilder::Base.i18n_lookups_by_default = false
 </pre>
 
 ...then you can enable I18n within the forms instead:
@@ -366,7 +366,7 @@ If I18n-lookups is disabled, i.e.:
       <%= form.input :section, :label => true %>    # => :label => I18n.t('activerecord.attributes.user.section')  or 'Section'
     <% end %>
     <% form.buttons do %>
-      <%= form.commit_button true %>                # => "Save changes" (if we are in edit that is...)
+      <%= form.commit true %>                # => "Save changes" (if we are in edit that is...)
     <% end %>
   <% end %>
 </pre>
@@ -416,43 +416,11 @@ h2. Configuration
 Run @./script/generate formtastic@ to copy a commented out config file into @config/initializers/formtastic.rb@. You can "view the configuration file on GitHub":http://github.com/justinfrench/formtastic/blob/master/generators/formtastic/templates/formtastic.rb
 
 
-h2. Form Generator
-
-There's a Formtastic form code generator to make your transition to Formtastic easier. All you have to do is to *specify an existing model name*, and optionally specify view template framework (ERB/HAML), and you are good to go. *Note:* This won't overwrite any of you stuff. This is how you use it:
-
-*Alt. 1: Generate in terminal:*
-
-<pre>
-$ ./script/generate form Post
-# ---------------------------------------------------------
-#  GENERATED FORMTASTIC CODE
-# ---------------------------------------------------------
-
-<% form.inputs do %>
-  <%= form.input :title, :label => 'Title' %>
-  <%= form.input :body, :label => 'Body' %>
-  <%= form.input :published, :label => 'Published' %>
-<% end %>
-
-# ---------------------------------------------------------
- Copied to clipboard - just paste it!
-</pre>
-
-*Alt. 2: Generate partial:*
-
-<pre>
-$ ./script/generate form Post --partial
-      exists  app/views/posts
-      create  app/views/posts/_form.html.erb
-</pre>
-
-To generate *HAML* markup, just add the @--haml@ as argument: @./script/generate form Post --haml@
-
 h2. Custom Inputs
 
 If you want to add your own input types to encapsulate your own logic or interface patterns, you can do so by subclassing SemanticFormBuilder and configuring Formtastic to use your custom builder class.
 
-@Formtastic::SemanticFormHelper.builder = MyCustomBuilder@
+@Formtastic::SemanticFormHelper::Base.builder = MyCustomBuilder@
 
 
 h2. Status
@@ -472,6 +440,7 @@ There are none, but...
 h2. Compatibility
 
 I'm only testing Formtastic with the latest Rails 2.4.x stable release, and it should be fine under Rails 2.3.x as well (including nested forms). Patches are welcome to allow backwards compatibility, but I don't have the energy!
+
 
 h2. Got TextMate?
 

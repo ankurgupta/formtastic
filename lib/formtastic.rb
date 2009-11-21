@@ -284,7 +284,7 @@ module Formtastic #:nodoc:
         field_set_and_list_wrapping(html_options, &block)
       else
         args = [:commit] if args.empty?
-        contents = args.map { |button_name| send(:"#{button_name}_button") }
+        contents = args.map { |button_name| send(:"#{button_name}") }
         field_set_and_list_wrapping(html_options, contents)
       end
     end
@@ -293,19 +293,19 @@ module Formtastic #:nodoc:
     # Creates a submit input tag with the value "Save [model name]" (for existing records) or
     # "Create [model name]" (for new records) by default:
     #
-    #   <%= form.commit_button %> => <input name="commit" type="submit" value="Save Post" />
+    #   <%= form.commit %> => <input name="commit" type="submit" value="Save Post" />
     #
     # The value of the button text can be overridden:
     #
-    #  <%= form.commit_button "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
-    #  <%= form.commit_button :label => "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
+    #  <%= form.commit "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
+    #  <%= form.commit :label => "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
     #
     # And you can pass html atributes down to the input, with or without the button text:
     #
-    #  <%= form.commit_button "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
-    #  <%= form.commit_button :class => "pretty" %> => <input name="commit" type="submit" value="Save Post" class="pretty {create|update|submit}" />
+    #  <%= form.commit "Go" %> => <input name="commit" type="submit" value="Go" class="{create|update|submit}" />
+    #  <%= form.commit :class => "pretty" %> => <input name="commit" type="submit" value="Save Post" class="pretty {create|update|submit}" />
     #
-    def commit_button(*args)
+    def commit(*args)
       options = args.extract_options!
       text = options.delete(:label) || args.shift
 
@@ -327,6 +327,11 @@ module Formtastic #:nodoc:
       accesskey = (options.delete(:accesskey) || @@default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
       button_html = button_html.merge(:accesskey => accesskey) if accesskey  
       template.content_tag(:li, self.submit(text, button_html), :class => element_class)
+    end
+    
+    def commit_button(*args)
+      ::ActiveSupport::Deprecation.warn("commit_button is deprecated. commit instead", caller)
+      commit(*args)
     end
 
     # A thin wrapper around #fields_for to set :builder => Formtastic::SemanticFormBuilder

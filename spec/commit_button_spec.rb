@@ -1,7 +1,7 @@
 # coding: utf-8
 require File.dirname(__FILE__) + '/spec_helper'
 
-describe 'SemanticFormBuilder#commit_button' do
+describe 'SemanticFormBuilder#commit' do
 
   include FormtasticSpecHelper
   
@@ -15,7 +15,7 @@ describe 'SemanticFormBuilder#commit_button' do
     before do
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button)
+        concat(builder.commit)
       end
     end
 
@@ -34,7 +34,7 @@ describe 'SemanticFormBuilder#commit_button' do
     it 'should pass options given in :button_html to the button' do
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button('text', :button_html => {:class => 'my_class', :id => 'my_id'}))
+        concat(builder.commit('text', :button_html => {:class => 'my_class', :id => 'my_id'}))
       end
 
       output_buffer.should have_tag('li.commit input#my_id')
@@ -54,7 +54,7 @@ describe 'SemanticFormBuilder#commit_button' do
       ::Formtastic::SemanticFormBuilder.default_commit_button_accesskey = 's'
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button('text', :button_html => {}))
+        concat(builder.commit('text', :button_html => {}))
       end
       output_buffer.should have_tag('li.commit input[@accesskey="s"]')
     end
@@ -63,7 +63,7 @@ describe 'SemanticFormBuilder#commit_button' do
       ::Formtastic::SemanticFormBuilder.default_commit_button_accesskey = 's'
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button('text', :accesskey => 'o'))
+        concat(builder.commit('text', :accesskey => 'o'))
       end
       output_buffer.should_not have_tag('li.commit input[@accesskey="s"]')
       output_buffer.should have_tag('li.commit input[@accesskey="o"]')
@@ -73,7 +73,7 @@ describe 'SemanticFormBuilder#commit_button' do
       ::Formtastic::SemanticFormBuilder.default_commit_button_accesskey = 's'
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button('text', :accesskey => 'o', :button_html => {:accesskey => 't'}))
+        concat(builder.commit('text', :accesskey => 'o', :button_html => {:accesskey => 't'}))
       end
       output_buffer.should_not have_tag('li.commit input[@accesskey="s"]')
       output_buffer.should_not have_tag('li.commit input[@accesskey="o"]')
@@ -91,7 +91,7 @@ describe 'SemanticFormBuilder#commit_button' do
     before do
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button("a string", :button_html => { :class => "pretty"}))
+        concat(builder.commit("a string", :button_html => { :class => "pretty"}))
       end
     end
     
@@ -110,7 +110,7 @@ describe 'SemanticFormBuilder#commit_button' do
     before do
       @new_post.stub!(:new_record?).and_return(false)
       semantic_form_for(@new_post) do |builder|
-        concat(builder.commit_button(:button_html => { :class => "pretty"}))
+        concat(builder.commit(:button_html => { :class => "pretty"}))
       end
     end
     
@@ -130,7 +130,7 @@ describe 'SemanticFormBuilder#commit_button' do
       describe 'when explicit label is provided' do
         it 'should render an input with the explicitly specified label' do
           semantic_form_for(:post, :url => 'http://example.com') do |builder|
-            concat(builder.commit_button("Click!"))
+            concat(builder.commit("Click!"))
           end
           output_buffer.should have_tag('li.commit input[@value="Click!"][@class~="submit"]')
         end
@@ -148,7 +148,7 @@ describe 'SemanticFormBuilder#commit_button' do
           
           it 'should render an input with default I18n-localized label (fallback)' do
             semantic_form_for(:post, :url => 'http://example.com') do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag('li.commit input[@value="Submit Post"][@class~="submit"]')
           end
@@ -170,7 +170,7 @@ describe 'SemanticFormBuilder#commit_button' do
 
          it 'should render an input with localized label (I18n)' do
            semantic_form_for(:post, :url => 'http://example.com') do |builder|
-             concat(builder.commit_button)
+             concat(builder.commit)
            end
            output_buffer.should have_tag(%Q{li.commit input[@value="Custom Submit Post"][@class~="submit"]})
          end
@@ -185,7 +185,7 @@ describe 'SemanticFormBuilder#commit_button' do
                   }
                }
            semantic_form_for(:post, :url => 'http://example.com') do |builder|
-             concat(builder.commit_button)
+             concat(builder.commit)
            end
            output_buffer.should have_tag(%Q{li.commit input[@value="Custom Submit"][@class~="submit"]})
          end
@@ -203,7 +203,7 @@ describe 'SemanticFormBuilder#commit_button' do
       describe 'when explicit label is provided' do
         it 'should render an input with the explicitly specified label' do
           semantic_form_for(@new_post) do |builder|
-            concat(builder.commit_button("Click!"))
+            concat(builder.commit("Click!"))
           end
           output_buffer.should have_tag('li.commit input[@value="Click!"][@class~="create"]')
         end
@@ -221,7 +221,7 @@ describe 'SemanticFormBuilder#commit_button' do
 
           it 'should render an input with default I18n-localized label (fallback)' do
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag('li.commit input[@value="Create Post"][@class~="create"]')
           end
@@ -243,7 +243,7 @@ describe 'SemanticFormBuilder#commit_button' do
 
           it 'should render an input with localized label (I18n)' do
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag(%Q{li.commit input[@value="Custom Create Post"][@class~="create"]})
           end
@@ -258,7 +258,7 @@ describe 'SemanticFormBuilder#commit_button' do
                    }
                 }
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag(%Q{li.commit input[@value="Custom Create"][@class~="create"]})
           end
@@ -276,7 +276,7 @@ describe 'SemanticFormBuilder#commit_button' do
       describe 'when explicit label is provided' do
         it 'should render an input with the explicitly specified label' do
           semantic_form_for(@new_post) do |builder|
-            concat(builder.commit_button("Click!"))
+            concat(builder.commit("Click!"))
           end
           output_buffer.should have_tag('li.commit input[@value="Click!"][@class~="update"]')
         end
@@ -294,7 +294,7 @@ describe 'SemanticFormBuilder#commit_button' do
 
           it 'should render an input with default I18n-localized label (fallback)' do
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag('li.commit input[@value="Save Post"][@class~="update"]')
           end
@@ -316,7 +316,7 @@ describe 'SemanticFormBuilder#commit_button' do
 
           it 'should render an input with localized label (I18n)' do
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag(%Q{li.commit input[@value="Custom Save Post"][@class~="update"]})
           end
@@ -331,7 +331,7 @@ describe 'SemanticFormBuilder#commit_button' do
                    }
                 }
             semantic_form_for(@new_post) do |builder|
-              concat(builder.commit_button)
+              concat(builder.commit)
             end
             output_buffer.should have_tag(%Q{li.commit input[@value="Custom Save"][@class~="update"]})
           end
@@ -341,4 +341,31 @@ describe 'SemanticFormBuilder#commit_button' do
     end
   end
 
+end
+
+describe 'SemanticFormBuilder#commit_button' do
+  
+  include FormtasticSpecHelper
+  
+  before do
+    @output_buffer = ''
+    mock_everything
+  end
+  
+  it "should warn about deprecation" do
+    ::ActiveSupport::Deprecation.should_receive(:warn).with(/commit_button/, anything())
+    semantic_form_for(@new_post) do |builder|
+      concat(builder.commit_button)
+    end
+  end
+  
+  it "should call commit button" do
+    semantic_form_for(@new_post) do |builder|
+      builder.should_receive(:commit_button).with("Foo").and_return("")
+      concat(builder.commit_button("Foo"))
+    end
+  end
+  
+  
+  
 end
