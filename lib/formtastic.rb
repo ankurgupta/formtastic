@@ -331,8 +331,41 @@ module Formtastic #:nodoc:
       template.content_tag(:li, send(:"#{as}_button", text, button_html), :class => element_class)
     end
     
+    def cancel(*args)
+      options = args.extract_options!
+      text = options.delete(:label) || args.shift
+      as = :link
+      
+      if @object
+        key = @object.new_record? ? :create : :update
+        object_name = @object.class.human_name
+      else
+        key = :submit
+        object_name = @object_name.to_s.send(@@label_str_method)
+      end
+      fallback_text ||= "#{key.to_s.humanize} {{model}}"
+
+      text = (self.localized_string(key, text, :action, :model => object_name) ||
+              ::I18n.t(key, :model => object_name, :default => fallback_text, :scope => [:formtastic])) unless text.is_a?(::String)
+      
+      button_html = options.delete(:button_html) || {}
+      button_html.merge!(:class => [button_html[:class], key].compact.join(' '))
+      element_class = ['cancel', options.delete(:class)].compact.join(' ') # TODO: Add class reflecting on form action.
+      accesskey = (options.delete(:accesskey) || @@default_commit_button_accesskey) unless button_html.has_key?(:accesskey)
+      button_html = button_html.merge(:accesskey => accesskey) if accesskey  
+      
+      template.content_tag(:li, send(:"#{as}_button", text, button_html), :class => element_class)
+    end
+    
     def input_button(text, html_options)
       self.submit(text, html_options)
+    end
+    
+    def link_button(text, html_options)
+      html_options[:class] ||= ""
+      html_options[:class] << " button negative"
+      
+      template.link_to(template.content_tag(:span, text), :back, html_options)
     end
     
     def button_button(text, html_options)

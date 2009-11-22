@@ -139,9 +139,12 @@ form.formtastic fieldset ol li.datetime fieldset ol li label input { display:inl
 
 /* PRETTY BUTTONS
 --------------------------------------------------------------------------------------------------*/
-form.formtastic li.commit .button { background:#eee; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); border:1px solid #999; -webkit-border-radius:3px; font-weight:bold; font-family:inherit; padding:0; margin:0; text-shadow:#fff 1px 1px; color:#444; }
-form.formtastic li.commit .button:hover { background:#fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#D4E8F2)); color:#306084; }
-form.formtastic li.commit .button span { display:block; padding:8px; }
-
-form.formtastic li.commit .positive:hover { background:#E6EFC2; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#E6EFC2)); }
-form.formtastic li.commit .positive span { padding-left:29px; background:url("/images/formtastic/tick.png") no-repeat 7px 50%; color:#529414; }
+form.formtastic li .button { background:#eee; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); border:1px solid #999; -webkit-border-radius:3px; font-weight:bold; font-family:inherit; padding:0; margin:0; text-shadow:#fff 1px 1px; color:#444; display:block; text-decoration:none; font-size:inherit; }
+form.formtastic li .button:hover { background:#fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#D4E8F2)); color:#306084; }
+form.formtastic li .button span { display:block; padding:8px; margin:0; background-color:red; }
+                  
+form.formtastic li .positive:hover { background:#E6EFC2; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#E6EFC2)); }
+form.formtastic li .positive span { padding-left:29px; background:url("/images/formtastic/tick.png") no-repeat 7px 50%; color:#529414; }
+                  
+form.formtastic li .negative:hover { background:#E6EFC2; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#FBE3E4)); }
+form.formtastic li .negative span { padding-left:29px; background:url("/images/formtastic/cross.png") no-repeat 7px 50%; color:#CF2F19; }
