@@ -122,7 +122,6 @@ form.formtastic fieldset ol li.check_boxes fieldset ol li label { float:none; wi
 form.formtastic fieldset ol li.check_boxes fieldset ol li label input { margin-right:0.2em; }
 
 
-
 /* DATE & TIME OVERRIDES
 --------------------------------------------------------------------------------------------------*/
 form.formtastic fieldset ol li.date fieldset ol li,
@@ -136,3 +135,13 @@ form.formtastic fieldset ol li.datetime fieldset ol li label { display:none; }
 form.formtastic fieldset ol li.date fieldset ol li label input, 
 form.formtastic fieldset ol li.time fieldset ol li label input, 
 form.formtastic fieldset ol li.datetime fieldset ol li label input { display:inline; margin:0; padding:0;  }
+
+
+/* PRETTY BUTTONS
+--------------------------------------------------------------------------------------------------*/
+form.formtastic li.commit .button { background:#eee; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee)); border:1px solid #999; -webkit-border-radius:3px; font-weight:bold; font-family:inherit; padding:0; margin:0; text-shadow:#fff 1px 1px; color:#444; }
+form.formtastic li.commit .button:hover { background:#fff; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#D4E8F2)); color:#306084; }
+form.formtastic li.commit .button span { display:block; padding:8px; }
+
+form.formtastic li.commit .positive:hover { background:#E6EFC2; background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#E6EFC2)); }
+form.formtastic li.commit .positive span { padding-left:29px; background:url("/images/formtastic/tick.png") no-repeat 7px 50%; color:#529414; }

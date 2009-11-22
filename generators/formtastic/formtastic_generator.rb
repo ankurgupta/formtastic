@@ -12,6 +12,9 @@ class FormtasticGenerator < Rails::Generator::Base
       m.directory File.join('public', 'stylesheets')
       m.template 'formtastic.css',   File.join('public', 'stylesheets', 'formtastic.css')
       m.template 'formtastic_changes.css',   File.join('public', 'stylesheets', 'formtastic_changes.css')
+      
+      m.directory File.join('public', 'images', 'formtastic')
+      m.template 'tick.png', File.join('public', 'images', 'formtastic', 'tick.png')
     end
   end
     

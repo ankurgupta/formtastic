@@ -22,6 +22,10 @@ describe 'SemanticFormBuilder#commit :as => :button' do
     output_buffer.should have_tag('li.commit button')
   end
   
+  it 'should render a span inside the button' do
+    output_buffer.should have_tag('li.commit button span')
+  end
+  
   it 'should render a button with a type of submit' do
     output_buffer.should have_tag('li.commit button[@type="submit"]')
   end
